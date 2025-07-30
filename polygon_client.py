@@ -1,35 +1,35 @@
---- a/polygon_client.py
-+++ b/polygon_client.py
-@@
--import os
-+import os, logging
+a/polygon_client.py
+b/polygon_client.py
+
+import os
+import os, logging
  from datetime import datetime, timedelta
  import requests
 
-+logging.basicConfig(level=logging.INFO)
-+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
  API_KEY = os.getenv('POLYGON_API_KEY')
  BASE_URL = 'https://api.polygon.io'
-@@
  def get_option_trades():
--    results = []
-+    if not API_KEY:
-+        logger.error("❌ POLYGON_API_KEY is not set!")
-+        return []
-+    logger.info(f"Using POLYGON_API_KEY={API_KEY[:4]}…")
+    results = []
+    if not API_KEY:
+       logger.error("❌ POLYGON_API_KEY is not set!")
+        return []
+    logger.info(f"Using POLYGON_API_KEY={API_KEY[:4]}…")
 
-+    results = []
+   results = []
      today = datetime.today().date()
      for symbol in blue_chip_tickers:
          try:
              url = f"{BASE_URL}/v3/reference/options/contracts?underlying_ticker={symbol}&limit=1000&apiKey={API_KEY}"
--            res = requests.get(url).json()
-+            resp = requests.get(url)
-+            if resp.status_code != 200:
-+                logger.warning(f"[{symbol}] contracts call → {resp.status_code}: {resp.text}")
-+                continue
-+            res = resp.json()
+          res = requests.get(url).json()
+           resp = requests.get(url)
+           if resp.status_code != 200:
+               logger.warning(f"[{symbol}] contracts call → {resp.status_code}: {resp.text}")
+               continue
+
+res = resp.json()
              contracts = res.get('results', [])
 import os
 import requests
