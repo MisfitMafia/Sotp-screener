@@ -6,7 +6,7 @@
     "description": "Fetches equity quotes, option chains, and IV rank using Polygon"
   },
   "servers": [
-    { "url": "https://YOUR_RENDER_APP.onrender.com" }
+    { "url": "https://sotp-screener.onrender.com" }
   ],
   "paths": {
     "/quote/{symbol}": {
