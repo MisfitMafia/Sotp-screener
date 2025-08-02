@@ -104,3 +104,6 @@ def chat():
         answer = msg.content
 
     return jsonify({"answer": answer})
+if __name__ == "__main__":
+    # Listen on 0.0.0.0 and the PORT Render provides (default 5000)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
