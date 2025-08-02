@@ -51,7 +51,31 @@ FUNCTIONS = [
         }
     }
 ]
+@app.route('/quote/<symbol>', methods=['GET'])
+def quote(symbol):
+    # fetch_equity_quote comes from market_data_client
+    data = fetch_equity_quote(symbol, request.args.get('market', 'USA'))
+    return jsonify(data)
 
+@app.route('/options', methods=['GET'])
+def options():
+    symbol     = request.args.get('symbol')
+    expiration = request.args.get('expiration')
+    market     = request.args.get('market', 'USA')
+    if not symbol or not expiration:
+        return jsonify({'error':'symbol & expiration required'}), 400
+    data = fetch_option_chain(symbol, expiration, market)
+    return jsonify(data)
+
+@app.route('/iv-rank', methods=['GET'])
+def iv_rank():
+    symbol = request.args.get('symbol')
+    period = int(request.args.get('period', 252))
+    market = request.args.get('market', 'USA')
+    if not symbol:
+        return jsonify({'error':'symbol required'}), 400
+    data = fetch_iv_rank(symbol, period, market)
+    return jsonify(data)
 @app.route("/chat", methods=["POST"])
 def chat():
     payload = request.get_json(force=True)
