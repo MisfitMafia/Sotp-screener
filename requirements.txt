@@ -1,3 +1,4 @@
-Flask
+flask
 python-dotenv
 polygon-api-client
+openai
