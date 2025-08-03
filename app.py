@@ -80,7 +80,12 @@ def iv_rank():
 def chat():
     payload = request.get_json(force=True)
     prompt  = payload.get("prompt", "")
-
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({
+        "OPENAI_API_KEY_set":  bool(os.getenv("OPENAI_API_KEY")),
+        "POLYGON_API_KEY_set": bool(os.getenv("POLYGON_API_KEY"))
+    })
     # 1️⃣ Send user prompt + function definitions to OpenAI
     first = openai.ChatCompletion.create(
         model="gpt-4o-mini",
